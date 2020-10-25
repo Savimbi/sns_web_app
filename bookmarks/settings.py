@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 from pathlib import Path
 import os
+from . import sec
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -26,7 +27,7 @@ SECRET_KEY = 'fwy)2(!m2n=wl0_3)o(1()(6!*_d0@dd)7zezdqwqg15r%$hp7'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['mysite.com', 'localhost', '127.0.0.1']
 
 
 # Application definition
@@ -39,6 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'social_django',
+    'django_extensions',
 ]
 
 MIDDLEWARE = [
@@ -71,10 +74,20 @@ TEMPLATES = [
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
     'account.authentication.EmailAuthBackend',
+    'social_core.backends.facebook.FacebookOAuth2',
+    'social_core.backends.twitter.TwitterOAuth',
+    'social_core.backends.google.GoogleOAuth2',
 ]
 
 WSGI_APPLICATION = 'bookmarks.wsgi.application'
 
+SOCIAL_AUTH_FACEBOOK_KEY= sec.SOCIAL_AUTH_FACEBOOK_KEY
+SOCIAL_AUTH_FACEBOOK_SECRET = sec.SOCIAL_AUTH_FACEBOOK_SECRET # Facebook App Secret
+SOCIAL_AUTH_FACEBOOK_SCOPE = sec.SOCIAL_AUTH_FACEBOOK_SCOPE
+SOCIAL_AUTH_TWITTER_KEY = sec.SOCIAL_AUTH_TWITTER_KEY # Twitter API Key
+SOCIAL_AUTH_TWITTER_SECRET = sec.SOCIAL_AUTH_TWITTER_SECRET # Twitter API Secre
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = sec.SOCIAL_AUTH_GOOGLE_OAUTH2_KEY # Google Consumer Key
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = sec.SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET # Google Consumer Secret
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
