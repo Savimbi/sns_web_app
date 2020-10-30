@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from .forms import LoginForm, UserRegistrationForm, UserEditForm, ProfileEditForm
 from .models import Profile
 from django.contrib import messages
+from django.shortcuts import get_list_or_404, get_object_or_404
 
 
 def user_login(request):
@@ -24,7 +25,7 @@ def user_login(request):
                 return HttpResponse('Invalid login ')
     else:
         form = LoginForm()
-    return render(request, 'account/login.html', {'form': form})
+    return render(request, 'account/login.html', {'form': form}, {'title':'Login form'})
 
 
 @login_required
@@ -66,8 +67,11 @@ def edit(request):
             messages.error(request, 'Error updating your profile')
     else:
         user_form = UserEditForm(instance=request.user)
-        profile_form = ProfileEditForm(
-                                    instance=request.user.profile)
+        profile_form = get_object_or_404(ProfileEditForm(
+                                    instance=request.user.profile))
+        if profile_form in Null:
+            message.error(request, 'The profile is not available!')
+            return render(request, 'account/dashboard.html')
     return render(request,
                   'account/edit.html',
                   {'user_form': user_form,

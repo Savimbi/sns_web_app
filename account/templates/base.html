@@ -1,9 +1,12 @@
 {% load static %}
+{# Load the tag library #}
+{% load bootstrap4 %}
 <!DOCTYPE html>
 <html>
 <head>
   <title>{% block title %}{% endblock %}</title>
   <link href="{% static "css/base.css" %}" rel="stylesheet">
+  {% bootstrap_css %}
 </head>
 <body>
   <div id="header">
@@ -44,5 +47,6 @@
     {% block content %}
     {% endblock %}
   </div>
+  {% bootstrap_javascript jquery='full' %}
 </body>
 </html>

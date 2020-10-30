@@ -1,24 +1,31 @@
 {% extends "base.html" %}
+{% load bootstrap4 %}
 {% block title %}Log-in{% endblock %}
 {% block content %}
 
-<h1>Login </h1>
-{% if form.errors %}
-<p>Your username and password didn7t match. Please try again!</p>
-{% else %}
-<p>Please, use the following form to log-in. If you don't have an account <a href="{% url "register" %}">register here</a></p>
-{% endif %}
-<div class="login-form">
+
+
+{# Display django.contrib.messages as Bootstrap alerts #}
+{% bootstrap_messages %}
+  <div class="form-container container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1 class="form__section-title">Hello {{ title }}</h1>
+        </div>
+        <div class="col-md-10">
 
     <form action="{% url 'login' %}" method="post">
-        {{form.as_p}}
+        
         {% csrf_token %}
-
+        {% bootstrap_form form %}
         <input type="hidden" name="next" value="{{ next }}">
-        <input type="submit" value="Log-in">
+        <input class="btn btn-primary btn-block mt-3" type="submit" value="Log-in">
     </form>
     <p><a href="{% url "password_reset" %}">Forgotten your password?</a></p>
 </div>
+</div>
+</div>
+
 
 <div class="social">
     <ul>
